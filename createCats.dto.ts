@@ -1,0 +1,11 @@
+import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+
+export class CreateCatsDto {
+    @IsString()
+    @IsNotEmpty()
+    name: string;
+
+    @IsNumber()
+    @IsNotEmpty()
+    age : number
+}
