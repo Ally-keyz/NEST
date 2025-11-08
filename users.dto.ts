@@ -18,6 +18,6 @@ export class UsersDto {
     @IsString()
     @IsNotEmpty()
     @IsEnum(userRole)
-    role :
+    role : string
 
 }
