@@ -8,27 +8,16 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal : true}),
-    MongooseModule.forRoot(process.env.MONGO_URL || "mongodb+srv://manzialpe:gloire@cluster0.beqtnkj.mongodb.net/?appName=Cluster0" , {
-      connectionFactory:(connection)=> {
-        connection.on("connected",()=>{
-          console.log("Connected to mongo db ...")
-        })
-
-        connection.on("error" , (err: any)=>{
-          console.log("Failed to connect to mongo db..." , err)
-        })
-       return connection ;
-      }})
+   ConfigModule.forRoot({isGlobal : true}),
+   MongooseModule.forRoot(process.env.MONGO_URL || 'mongodb+srv://manzialpe:gloire@cluster0.beqtnkj.mongodb.net/?appName=Cluster0')
   ],
   controllers: [AppController],
   providers: [AppService],
 })
- export class AppModule implements NestModule {
+export class AppModule  implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-    .apply(AppController)
-    .exclude({path : "cats/*xyz" , method : RequestMethod.ALL})
-    .forRoutes(AppService)
+    .apply(loggerMiddleware)
+    .forRoutes(AppController)
   }
- }
+}
